@@ -9,7 +9,7 @@ namespace WebFrontEnd.Pages
 {
     public class IndexModel : PageModel
     {
-        public void OnGet()
+        public async Task OnGetAsync()
         {
             ViewData["Message"] = "Hello from webfrontend";
 
