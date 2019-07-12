@@ -35,15 +35,15 @@ if ($backendVer) {
   $env:BACKEND_VER = $backendVer;
   Write-Output "Use Backend Version= $env:BACKEND_VER"
 } elseif ($useTimeStamp) {
-  $env:BACKEND_VER = $backendVer;
+  $env:BACKEND_VER = $timeStamp;
   Write-Output "Use Backend Version= $env:BACKEND_VER"
 }
 
 docker-compose -f docker-compose.yml build $other_args
 
 if ($pushImgs -and $registry) {
-  Write-Output "Push images to `"$registry`""
-  docker images "$registry/*" --format "{{.Repository}}" | Select-Object -Unique | ForEach-Object { docker push $_ }
+  Write-Output "Push images to `"$registry`" registry"
+  docker-compose -f docker-compose.yml push
 }
 
 if ($env:DOCKER_REGISTRY) {
