@@ -18,3 +18,5 @@
 **/secrets.dev.yaml
 **/values.dev.yaml
 **/.toolstarget
+# deploy config folder
+deploy_conf/*

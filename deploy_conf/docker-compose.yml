@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  webfrontend:
+    image: ${DOCKER_REGISTRY-}webfrontend:${FRONTEND_VER:-latest}
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=${HTTPS_PORT:-443}
+      - Kestrel__Certificates__Default__Path=/root/.dotnet/https/demo-cert.pfx
+      - Kestrel__Certificates__Default__Password=${SSL_PASS}
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    volumes:
+      - ./demo_cert/:/root/.dotnet/https/:ro
+    networks: 
+      - internal_my_net
+
+  mywebapi:
+    image: ${DOCKER_REGISTRY-}mywebapi:${BACKEND_VER:-latest}
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks: 
+      - internal_my_net
+
+networks:
+  internal_my_net:
